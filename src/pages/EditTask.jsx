@@ -1,6 +1,9 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { updateTask } from "../services/api";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 function EditTask() {
   const { id } = useParams();
@@ -21,7 +24,7 @@ function EditTask() {
       try {
         const token = localStorage.getItem("token");
 
-        const response = await fetch(`http://127.0.0.1:8000/api/tasks/${id}/`, {
+        const response = await fetch(`${API_URL}/tasks/${id}/`, {
           headers: {
             Authorization: `Token ${token}`,
           },
@@ -34,7 +37,7 @@ function EditTask() {
         }
 
         setTitle(data.title);
-        setDescription(data.description);
+        setDescription(data.description || "");
         setStatus(data.status);
         setPriority(data.priority);
       } catch (error) {
@@ -113,9 +116,7 @@ function EditTask() {
           onChange={(event) => setStatus(event.target.value)}
         >
           <option value="Pending">Pending</option>
-
           <option value="In Progress">In Progress</option>
-
           <option value="Completed">Completed</option>
         </select>
 
@@ -126,9 +127,7 @@ function EditTask() {
           onChange={(event) => setPriority(event.target.value)}
         >
           <option value="Low">Low</option>
-
           <option value="Medium">Medium</option>
-
           <option value="High">High</option>
         </select>
 

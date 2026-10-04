@@ -1,5 +1,8 @@
+
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 function TaskDetails() {
   const { id } = useParams();
@@ -14,7 +17,7 @@ function TaskDetails() {
       try {
         const token = localStorage.getItem("token");
 
-        const response = await fetch(`http://127.0.0.1:8000/api/tasks/${id}/`, {
+        const response = await fetch(`${API_URL}/tasks/${id}/`, {
           headers: {
             Authorization: `Token ${token}`,
           },
@@ -77,7 +80,8 @@ function TaskDetails() {
         </p>
 
         <p>
-          <strong>Created:</strong> {new Date(task.created_at).toLocaleString()}
+          <strong>Created:</strong>{" "}
+          {new Date(task.created_at).toLocaleString()}
         </p>
 
         <div className="task-actions">
@@ -91,3 +95,4 @@ function TaskDetails() {
 }
 
 export default TaskDetails;
+
